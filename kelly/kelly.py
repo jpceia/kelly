@@ -9,6 +9,15 @@ def bernoulli(odd, prob, prob_err=None):
         k = b * b / (b * b + s * s)
     return k * b
 
+def bernoulli_exp(odd, p, a=1, q=None):
+    """
+    Solution for the exponential case:
+    utility function
+        u(x) = (1 - e^(ax)) / a
+    """
+    if q is None:
+        q = 1 - p
+    return (np.log(odd - 1) + np.log(p) - np.log(q)) / (odd * a)
 
 def exclusive(o, p):
     """
