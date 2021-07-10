@@ -19,6 +19,19 @@ def bernoulli_exp(odd, p, a=1, q=None):
         q = 1 - p
     return (np.log(odd - 1) + np.log(p) - np.log(q)) / (odd * a)
 
+def bernoulli_pow(odd, p, a=0.5, q=None):
+    """
+    Solution for the power case:
+    utility function:
+        u(x) = x^(1-a) / (1 - a)
+    """
+    if q is None:
+        q = 1 - p
+    P = np.power(p, 1 / a)
+    Q = np.power(q, 1 / a)
+    return 1 / (1 + Q * odd / (P * np.power(odd - 1, 1 / a) - Q))
+
+
 def exclusive(o, p):
     """
     Exclusive Kelly Algorithm:
