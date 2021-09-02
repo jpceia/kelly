@@ -63,5 +63,5 @@ def exclusive(o, p):
     tmp_p = 1 - np.cumsum(p[idx][:-1])
     tmp_q = 1 - np.cumsum(q[idx][:-1])
     R = np.insert(tmp_p / tmp_q, 0, 1)
-    i = np.argmin(rev[idx] > R) - 1
+    i = np.argmin(rev[idx] > R)
     return np.maximum((rev - R[i]) * q, 0)
