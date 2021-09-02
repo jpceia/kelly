@@ -1,11 +1,16 @@
 import numpy as np
 
 
-def bernoulli(odd, prob, prob_err=None):
-    b = (odd * prob - 1) / (odd - 1)
+def bernoulli(odd, p, err=0):
+    """
+    Solution for the classical case of the kelly criterion:
+    utility function
+        u(x) = log(x)
+    """
+    b = (odd * p - 1) / (odd - 1)
     k = 1
-    if prob_err is not None:
-        s = (1 + 1 / odd) * prob_err
+    if err > 0:
+        s = (odd / (odd - 1)) * err
         k = b * b / (b * b + s * s)
     return k * b
 
