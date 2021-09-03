@@ -1,1 +1,1 @@
-from .kelly import bernoulli, exclusive
+from .kelly import bernoulli, bernoulli_exp, bernoulli_pow, exclusive
