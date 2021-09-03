@@ -47,10 +47,10 @@ def exclusive(o, p):
     4.  Repeat
         if E[r_i] > R:
             insert i in S
-            R := 1 - (sum_{not S} p_k) / (1 - sum_{S} (1 / o_i))
-        else:
+            R := 1 - (sum_{not S} p_k) / (1 - sum_{S} (1 / o_k))
+        else:<
             break
-    5.  f_i := p_i - (1 / o_i) * (sum_{not S} p_k) / (1 - sum_{S} (1 / o_i))
+    5.  x_i := p_i - (1 / o_i) * R
     """
     rev, q = p * o, 1 / o
     
@@ -65,3 +65,24 @@ def exclusive(o, p):
     R = np.insert(tmp_p / tmp_q, 0, 1)
     i = np.argmin(rev[idx] > R)
     return np.maximum((rev - R[i]) * q, 0)
+
+
+def exclusive_exp(o, p, a=1):
+    """
+    Exclusive kelly for exponential utility
+    x_i = log(p_i * o_i / R) / (o_i * a)
+    """
+    rev, q = p * o, 1 / o
+    
+    if (rev <= 1).all():
+        return np.zeros_like(p)
+    if q.sum() < 1:
+        raise ValueError("Arbitrageable")
+
+    idx = np.argsort(-rev)
+    tmp_p = 1 - np.cumsum(p[idx][:-1])
+    tmp_q = 1 - np.cumsum(q[idx][:-1])
+
+    R = np.insert(tmp_p / tmp_q, 0, 1)
+    i = np.argmin(rev[idx] > R)
+    return np.maximum(np.log(o * p / R[i]) * q / a, 0)
