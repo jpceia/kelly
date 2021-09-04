@@ -59,3 +59,34 @@ def exclusive_exp(o, p, a=1):
     R = np.insert(tmp_p / tmp_q, 0, 1)
     i = np.argmin(rev[idx] > R)
     return np.maximum(np.log(o * p / R[i]) * q / a, 0)
+
+
+def exclusive_pow(o, p, a=0.5):
+    """
+    Exclusive kelly for power utility
+    """
+    assert a != 1
+    assert a != 0
+
+    rev, q = p * o, 1 / o
+    if (rev <= 1).all():
+        return np.zeros_like(p)
+    if q.sum() < 1:
+        raise ValueError("Arbitrageable")
+
+    idx = np.argsort(-rev)
+    r = (rev ** (1 / a) * q)
+    tmp_p = 1 - np.cumsum(p[idx][:-1])
+    tmp_q = 1 - np.cumsum(q[idx][:-1])
+    tmp_r = np.cumsum(r[idx][:-1])
+
+    R = np.insert(tmp_p / tmp_q, 0, 1)
+    i = np.argmin(rev[idx] > R)
+    R = R[i]
+    tmp_p = np.insert(tmp_p, 0, 1)[i]
+    tmp_q = np.insert(tmp_q, 0, 1)[i]
+    tmp_r = np.insert(tmp_r, 0, 0)[i]
+    R_adj = 1 / (tmp_r * R ** (-1 / a) + tmp_q)
+    x = R_adj * ((R / rev) ** (-1 / a) - 1) * q
+    return (np.maximum(x, 0))
+
