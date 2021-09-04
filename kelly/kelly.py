@@ -15,15 +15,15 @@ def bernoulli(odd, p, err=0):
     return k * b
 
 
-def bernoulli_exp(odd, p, a=1, q=None):
+def bernoulli_exp(odd, p, q=None):
     """
     Solution for the exponential case:
     utility function
-        u(x) = (1 - e^(ax)) / a
+        u(x) = 1 - e^(x)
     """
     if q is None:
         q = 1 - p
-    return (np.log(odd - 1) + np.log(p) - np.log(q)) / (odd * a)
+    return (np.log(odd - 1) + np.log(p) - np.log(q)) / odd
 
 
 def bernoulli_pow(odd, p, a=0.5, q=None):

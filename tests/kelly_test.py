@@ -23,20 +23,8 @@ class Test(unittest.TestCase):
         x = bernoulli_exp(5, 0.33)
         self.assertAlmostEqual(x, 0.13562186063908097)
 
-        x = bernoulli_exp(3, 0.5, 0.9)
-        self.assertAlmostEqual(x, 0.2567211779851649)
-
-        x = bernoulli_exp(3, 0.5, 1.1)
-        self.assertAlmostEqual(x, 0.21004460016968038)
-
         x = bernoulli_exp(2, 0.5, q=0.4)
         self.assertAlmostEqual(x, 0.11157177565710485)
-
-        x = bernoulli_exp(2, 0.5, 0.9, q=0.4)
-        self.assertAlmostEqual(x, 0.1239686396190054)
-
-        x = bernoulli_exp(2, 0.5, 1.1, q=0.4)
-        self.assertAlmostEqual(x, 0.10142888696100441)
 
     def test_bernoulli_pow(self):
         x = bernoulli_pow(3, 0.5, 1)

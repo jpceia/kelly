@@ -41,12 +41,6 @@ class Test(unittest.TestCase):
         q /= q.sum()
         
         o = 1 / q
-
-        b = exclusive_exp(o, p, .5)
-        print(b[0], b[1])
-        b_expected = [0.06391767164317638,0.04445588092384863, 0.]
-        np.testing.assert_allclose(b, b_expected, atol=1e-8)
-
         b = exclusive_exp(o, p, 1)
         b_expected = [0.03195883582158819, 0.022227940461924316, 0.]
         np.testing.assert_allclose(b, b_expected, atol=1e-8)

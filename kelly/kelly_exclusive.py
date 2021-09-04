@@ -1,13 +1,13 @@
 import numpy as np
 
 """
-Tries to find the Kelly criterion for multiple (exclusive) outcomes.
-This comes from maximizing the following function:
-    
-    L(x)    =   sum_i p_i * u(1 - sum_k x_k + o_i * x_i)
+    Tries to find the Kelly criterion for multiple (exclusive) outcomes.
+    This comes from maximizing the following function:
+        
+        L(x)    =   sum_i p_i * u(1 - sum_k x_k + o_i * x_i)
 
-subject to      x_i >= 0    for all i
-                sum_k x_k <= 1
+    subject to      x_i >= 0    for all i
+                    sum_k x_k <= 1
 """
 
 def exclusive(o, p):
@@ -40,10 +40,10 @@ def exclusive(o, p):
     return np.maximum((rev - R[i]) * q, 0)
 
 
-def exclusive_exp(o, p, a=1):
+def exclusive_exp(o, p):
     """
     Exclusive kelly for exponential utility
-    x_i = log(p_i * o_i / R) / (o_i * a)
+    x_i = log(p_i * o_i / R) / o_i
     """
     rev, q = p * o, 1 / o
     
@@ -58,15 +58,15 @@ def exclusive_exp(o, p, a=1):
 
     R = np.insert(tmp_p / tmp_q, 0, 1)
     i = np.argmin(rev[idx] > R)
-    return np.maximum(np.log(o * p / R[i]) * q / a, 0)
+    return np.maximum(np.log(o * p / R[i]) * q, 0)
 
 
 def exclusive_pow(o, p, a=0.5):
     """
     Exclusive kelly for power utility
     """
+    assert a > 0
     assert a != 1
-    assert a != 0
 
     rev, q = p * o, 1 / o
     if (rev <= 1).all():
@@ -89,4 +89,3 @@ def exclusive_pow(o, p, a=0.5):
     R_adj = 1 / (tmp_r * R ** (-1 / a) + tmp_q)
     x = R_adj * ((R / rev) ** (-1 / a) - 1) * q
     return (np.maximum(x, 0))
-
