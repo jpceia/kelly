@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from kelly import exclusive, exclusive_exp
+from kelly import exclusive, exclusive_exp, exclusive_pow
 
 class Test(unittest.TestCase):
 
@@ -109,6 +109,86 @@ class Test(unittest.TestCase):
         # arbitrageable
         o = 1.05 * self.o
         self.assertRaises(ValueError, exclusive_exp, o, self.p)
+
+    def test_exclusive_pow_sqrt(self):
+        o = self.o
+        x = exclusive_pow(o, self.p, 0.5)
+        np.testing.assert_allclose(x, [
+            0.00040943,
+            0.,
+            0.,
+            0.,
+            0.,
+            0.,
+            0.0062919,
+            0.04577072,
+            0.01880043,
+            0.        
+        ], atol=1e-8)
+
+        o = 0.95 * self.o
+        x = exclusive_pow(o, self.p, 0.5)
+        np.testing.assert_allclose(x, [
+            0.,
+            0.,
+            0.,
+            0.,
+            0.,
+            0.,
+            0.,
+            0.01352295,
+            0.,
+            0.
+        ], atol=1e-8)
+
+        # zero investment
+        o = 0.90 * self.o
+        x = exclusive_pow(o, self.p, 0.5)
+        np.testing.assert_allclose(x, np.zeros(10), atol=1e-8)
+
+        # arbitrageable
+        o = 1.05 * self.o
+        self.assertRaises(ValueError, exclusive_pow, o, self.p, 0.5)
+
+    def test_exclusive_pow_square(self):
+        o = self.o
+        x = exclusive_pow(o, self.p, 2)
+        np.testing.assert_allclose(x, [
+            0.00010812,
+            0.,
+            0.,
+            0.,
+            0.,
+            0.,
+            0.00163819,
+            0.0110982,
+            0.00476031,
+            0.        
+        ], atol=1e-8)
+
+        o = 0.95 * self.o
+        x = exclusive_pow(o, self.p, 2)
+        np.testing.assert_allclose(x, [
+            0.,
+            0.,
+            0.,
+            0.,
+            0.,
+            0.,
+            0.,
+            0.00333304,
+            0.,
+            0.
+        ], atol=1e-8)
+
+        # zero investment
+        o = 0.90 * self.o
+        x = exclusive_pow(o, self.p, 2)
+        np.testing.assert_allclose(x, np.zeros(10), atol=1e-8)
+
+        # arbitrageable
+        o = 1.05 * self.o
+        self.assertRaises(ValueError, exclusive_pow, o, self.p, 2)
 
 
 if __name__ == "__main__":
