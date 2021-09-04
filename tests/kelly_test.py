@@ -1,5 +1,5 @@
 import unittest
-from kelly import bernoulli
+from kelly import bernoulli, bernoulli_exp, bernoulli_pow
 
 class Test(unittest.TestCase):
 
