@@ -19,7 +19,7 @@ def bernoulli_exp(odd, p, q=None):
     """
     Solution for the exponential case:
     utility function
-        u(x) = 1 - e^(x)
+        u(x) = -e^(-x)
     """
     if q is None:
         q = 1 - p
@@ -30,7 +30,7 @@ def bernoulli_pow(odd, p, a=0.5, q=None):
     """
     Solution for the power case:
     utility function:
-        u(x) = x^(1-a) / (1 - a)
+        u(x) = (x^(1-a) - 1) / (1 - a)
     """
     if q is None:
         q = 1 - p
